@@ -22,6 +22,7 @@
 					<element name="username" type="string" minOccurs="0" maxOccurs="1" />
 					<element name="password" type="string" minOccurs="0" maxOccurs="1" />
 					<element name="hostname" type="string" minOccurs="0" maxOccurs="1" />
+          <element name="hostnames" type="string" minOccurs="0" maxOccurs="1" />
 					<element name="exchange" type="string" minOccurs="0" maxOccurs="1"/>
 					<element name="port" type="unsignedShort" minOccurs="0" maxOccurs="1" />
 					<element name="topic" type="string" minOccurs="0" maxOccurs="1" />
@@ -67,6 +68,11 @@
 						<documentation>The host name of the broker to log to. The default is 'localhost'</documentation>
 					</annotation>
 				</attribute>
+         <attribute name="hostnames" type="string" default="localhost">
+           <annotation>
+             <documentation>The host names of the broker to log to. The default is 'localhost'</documentation>
+           </annotation>
+         </attribute>
 				 <attribute name="exchange" type="string" default="app-logging">
 					 <annotation>
 						 <documentation>The exchange to bind the logger output to.</documentation>

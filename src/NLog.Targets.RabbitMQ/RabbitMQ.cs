@@ -76,7 +76,7 @@ namespace NLog.Targets
 			set { _Password = value; }
 		}
 
-		private ushort _Port = 5672;
+		//private ushort _Port = 5672;
 
 		/// <summary>
 		/// 	Gets or sets the port to use
@@ -84,11 +84,11 @@ namespace NLog.Targets
 		/// 	listening port).
 		/// 	The default is '5672'.
 		/// </summary>
-		public ushort Port
-		{
-			get { return _Port; }
-			set { _Port = value; }
-		}
+		//public ushort Port
+		//{
+		//	get { return _Port; }
+		//	set { _Port = value; }
+		//}
 
 		private Layout _Topic = "{0}";
 
@@ -117,19 +117,32 @@ namespace NLog.Targets
 			set { if (value != null) _Protocol = value; }
 		}
 
-		private string _HostName = "localhost";
+        private string _HostName = "localhost";
 
-		/// <summary>
-		/// 	Gets or sets the host name of the broker to log to.
-		/// </summary>
-		/// <remarks>
-		/// 	Default is 'localhost'
-		/// </remarks>
-		public string HostName
-		{
-			get { return _HostName; }
-			set { if (value != null) _HostName = value; }
-		}
+        /// <summary>
+        /// 	Gets or sets the host name of the broker to log to.
+        /// </summary>
+        /// <remarks>
+        /// 	Default is 'localhost'
+        /// </remarks>
+        public string HostName
+        {
+            get { return _HostName; }
+            set { if (value != null) _HostName = value; }
+        }
+
+        /// <summary>
+        /// 	Gets or sets the host names of the broker to log to.
+        /// </summary>
+        /// <remarks>
+        /// 	Default is 'localhost'
+        /// </remarks>
+        private string _HostNames = "localhost";
+        public string HostNames
+        {
+            get { return _HostNames; }
+            set { if (value != null) _HostNames = value; }
+        }
 
 		private string _Exchange = "app-logging";
 
@@ -423,7 +436,7 @@ namespace NLog.Targets
 				{
 					try
 					{
-						_Connection = GetConnectionFac().CreateConnection();
+						_Connection = GetConnectionFac().CreateConnection(HostNames.Split('|'));
 						AddConnectionShutdownDelegate(_Connection);
 
 						try
@@ -464,14 +477,13 @@ namespace NLog.Targets
 
 		private ConnectionFactory GetConnectionFac()
 		{
-			return new ConnectionFactory
-			{
-				HostName = HostName,
+            return new ConnectionFactory
+            {
+                AutomaticRecoveryEnabled = true,
 				VirtualHost = VHost,
 				UserName = UserName,
 				Password = Password,
 				RequestedHeartbeat = HeartBeatSeconds,
-				Port = Port,
 				Ssl = new SslOption()
 				{
 					Enabled = UseSsl,
